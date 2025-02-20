@@ -1,0 +1,4 @@
+torch==2.4.0
+tensorrt==10.6.0
+torchvision
+opencv-python
