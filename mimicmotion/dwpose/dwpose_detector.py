@@ -8,6 +8,7 @@ from .wholebody import Wholebody
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+print(__file__, device)
 class DWposeDetector:
     """
     A pose detect method for image-like data.
