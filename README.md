@@ -43,9 +43,12 @@ For the initial released version of the model checkpoint, it supports generating
 Recommend python 3+ with torch 2.x are validated with an Nvidia V100 GPU. Follow the command below to install all the dependencies of python:
 
 ```
-conda env create -f environment.yaml
-conda activate mimicmotion
+pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com
+pip uninstall onnxruntime
+pip install onnxruntime-gpu
 ```
+
+
 
 ### Download weights
 If you experience connection issues with Hugging Face, you can utilize the mirror endpoint by setting the environment variable: `export HF_ENDPOINT=https://hf-mirror.com`.
