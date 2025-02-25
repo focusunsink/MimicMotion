@@ -8,3 +8,4 @@ onnxruntime-gpu
 diffusers
 omegaconf
 einops
+decord
