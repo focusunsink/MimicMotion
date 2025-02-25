@@ -9,3 +9,5 @@ diffusers
 omegaconf
 einops
 decord
+matplotlib
+accelerate
