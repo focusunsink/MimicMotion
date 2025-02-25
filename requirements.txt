@@ -1,4 +1,4 @@
-torch==2.4.0
+torch==2.6.0
 tensorrt==10.6.0
 transformers
 torchvision
@@ -6,3 +6,4 @@ opencv-python
 onnx
 onnxruntime-gpu
 diffusers
+omegaconf
