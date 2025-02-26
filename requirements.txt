@@ -1,7 +1,8 @@
 #torch==2.5.1
 tensorrt==10.6.0
 torchvision
-opencv-python==4.5.5.64onnx
+opencv-python==4.5.5.64
+onnx
 onnxruntime-gpu
 diffusers==0.27.0
 transformers==4.32.1
