@@ -55,7 +55,9 @@ print("pose_latents", pose_latents.shape, pose_latents.dtype)
 print("_noise_pred_gt", _noise_pred_gt.shape, _noise_pred_gt.dtype)
 
 
-#unet = torch.compile(unet)
+#['cudagraphs', 'inductor', 'onnxrt', 'openxla', 'tvm']
+
+unet = torch.compile(unet)
 import time
 
 
@@ -76,11 +78,37 @@ with torch.no_grad():
         print("unet time used: ", ed - st)
 
 
-print("_noise_pred", _noise_pred)
-print(_noise_pred.dtype)
-
 print("simimlarity ", torch.cosine_similarity(_noise_pred_gt, _noise_pred))
 err = torch.abs(_noise_pred - _noise_pred_gt)
 sum_err = torch.sum(err)
-print("err ", err)
+#print("err ", err)
+print("mean err", torch.mean(err))
 print("sum err", sum_err)
+print("max err", torch.max(err))
+
+
+from trt_backend import ModelBackendBase
+
+
+trt_backend = ModelBackendBase("./engines/unet2_16f_448res.engine", "cuda:0")
+
+
+import time
+
+for i in range(10):
+    torch.cuda.synchronize()
+    st = time.time()
+    trt_output = trt_backend.run(latent_model_input, t, encoder_hidden_states, added_time_ids, pose_latents)
+    torch.cuda.synchronize()
+    ed = time.time()
+    print("infer time used: ", ed - st)
+
+
+
+print("simimlarity ", torch.cosine_similarity(_noise_pred_gt, trt_output))
+err = torch.abs(trt_output - _noise_pred_gt)
+sum_err = torch.sum(err)
+#print("err ", err)
+print("sum err", sum_err)
+print("mean err", torch.mean(err))
+print("max error: ", torch.max(err))
