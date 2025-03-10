@@ -1,3 +1,9 @@
+
+"""
+Position id must be float32
+
+"""
+
 import torch
 import torch.nn as nn
 import tensorrt as trt
@@ -53,6 +59,11 @@ class ModelBackendBase():
         return bindings, binding_addrs, output_names
 
     def _load_engine(self):
+        import os
+        torch.cuda.set_device(int(self.device[-1])) 
+        # os.environ['CUDA_DEVICE'] = str(self.device[-1])
+        # import pycuda.driver as cuda
+        # import pycuda.autoinit
        
         logger = trt.Logger(trt.Logger.INFO)
         with open(self.engine_path, "rb") as f, trt.Runtime(logger) as runtime:
@@ -117,8 +128,14 @@ class ModelBackendBase():
    
 
     def run(self,  latent_model_input, t, image_embeddings, added_time_ids, pose_latents):
-        
+        torch.cuda.set_device(int(self.device[-1])) 
+        latent_model_input = latent_model_input.to(self.device)
+        t = t.to(self.device)
+        image_embeddings = image_embeddings.to(self.device)
+        added_time_ids = added_time_ids.to(self.device)
+        pose_latents = pose_latents.to(self.device)
         self.set_shape()
+        
         self.set_addr(latent_model_input, t, image_embeddings, added_time_ids, pose_latents)
 
         self.context.execute_v2(list(self.binding_addrs.values()))
@@ -128,3 +145,6 @@ class ModelBackendBase():
 
         
         return y[0].float()
+
+
+
