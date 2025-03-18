@@ -12,4 +12,5 @@ einops
 matplotlib
 accelerate
 huggingface-hub==0.25.2
-numpy==1.24.3
+numpy==1.24.3 # or numpy==1.26.0
+
