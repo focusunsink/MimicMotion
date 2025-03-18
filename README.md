@@ -95,6 +95,11 @@ For the 35s demo video, the 72-frame model requires 16GB VRAM (4060ti) and finis
 
 The minimum VRAM requirement for the 16-frame U-Net model is 8GB; however, the VAE decoder demands 16GB. You have the option to run the VAE decoder on CPU.
 
+# to Optimize 
+1. paralllelize unet around indices
+2. batch first and second unet
+
+
 ## Citation	
 ```bib
 @article{mimicmotion2024,
